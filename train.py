@@ -160,8 +160,8 @@ def predict(sentence):
     output_index=top_i[0][0]
     print("intent=",all_categories[output_index])
 #predicting sentence the model didn't seen before
-predict("good bye")
-predict("where can i get sandwich")
+#predict("good bye")
+#predict("where can i get sandwich")
 
 """
 input= good bye
