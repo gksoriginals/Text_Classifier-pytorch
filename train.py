@@ -3,21 +3,22 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch
 import random
+from pathlib import Path
 
 
 class ANN(nn.Module):
 
     def __init__(self,input_size,hidden_size,output_size):
         super(ANN,self).__init__()
-        self.i2h=nn.Linear(input_size,hidden_size)
-        self.h2o=nn.Linear(hidden_size,output_size)
-        self.softmax=nn.LogSoftmax()
+        self.i2h = nn.Linear(input_size,hidden_size)
+        self.h2o = nn.Linear(hidden_size,output_size)
+        self.softmax = nn.LogSoftmax()
 
     def forward(self, input):
         # forward pass of the network
-        hidden=self.i2h(input)   # input to hidden layer
-        output=self.h2o(hidden)  # hidden to output layer
-        output=self.softmax(output)   # softmax layer
+        hidden = self.i2h(input)   # input to hidden layer
+        output = self.h2o(hidden)  # hidden to output layer
+        output = self.softmax(output)   # softmax layer
         return output
 learning_rate = .005
 hidden_size = 128  # size of hidden layer
@@ -61,23 +62,24 @@ def dataclean(training_data):
         if data["intent"] not in all_categories:
            all_categories.append(data["intent"])
         for word in data["sentence"].split(" "):
+
             #  storing words in each sentence
             if word not in all_words:
                all_words.append(word)
-    return all_categories,all_words
+    return all_categories, all_words
 
 
-all_categories,all_words = dataclean(training_data)
+all_categories, all_words = dataclean(training_data)
 
 # We need to convert sentence into a vector with size is total number of distinct words in dataset,initialized to zero.
 # If a word is in the sentence its position is made one. Thus a bag of word is created.
 
 
-n_words=len(all_words)  # input size
-n_categories=len(all_categories)  # output size
-input_size=n_words
-output_size=n_categories
-hidden_size=128
+n_words = len(all_words)  # input size
+n_categories = len(all_categories)  # output size
+input_size = n_words
+output_size = n_categories
+hidden_size = 128
 
 def wordToIndex(word):
     # finding indx of a word from all_words
@@ -119,7 +121,7 @@ def train(output,input,ann):
     # function for training the neural net
     ann.zero_grad()  # initializing gradients with zeros
     # predicting the output
-    output_p=ann(input)  # input --> hidden_layer --> output
+    output_p = ann(input)  # input --> hidden_layer --> output
     loss = criterion(output_p,output)  # comparing the guessed output with actual output
     loss.backward()  # backpropagating to compute gradients with respect to loss
 
@@ -128,25 +130,22 @@ def train(output,input,ann):
         p.data.add_(-learning_rate,p.grad.data)
     return output,loss.data[0]  # returning predicted output and loss
 
-#n_iters=100000
+
 def training(n_iters,ann):
-    current_loss=0
+    current_loss = 0
     for iter in range(1,n_iters+1):
         # training the network for n_iteration
         category,sentence,category_tensor,line_tensor = randomtrainingexample()  # fetching random training data
         output,loss = train(category_tensor,line_tensor,ann)  # training the neural network to predict the intent accuratly
         current_loss += loss  # updating the error
         if iter%100 == 0:
-            # for each 50 iteration print the error,input,actual intent,guessed intent
-           #top_n,top_i=output.data.topk(1)
-           k=0
-           output_index=output.data.numpy()[0]
-           #print(top_i)
-           #output_index = top_i[0][0]  # converting output tensor to integer
-           out_index=category_tensor.data.numpy()  # converting tensor datatype to integer
-           accuracy=100-(loss*100)
-           if accuracy<0:
-              accuracy=0
+           # for each 50 iteration print the error,input,actual intent,guessed intent
+           k = 0
+           output_index = output.data.numpy()[0]
+           out_index = category_tensor.data.numpy()  # converting tensor datatype to integer
+           accuracy = 100-(loss*100)
+           if accuracy < 0:
+              accuracy = 0
            print('accuracy=',round(accuracy),'%','input=',sentence,'actual=',all_categories[out_index[0]],
                   'guess=',all_categories[output_index])
 # testing
@@ -154,20 +153,22 @@ def training(n_iters,ann):
 
 def evaluate(line_tensor,ann):
     # output evaluating function
-    output=ann(line_tensor)
+    output = ann(line_tensor)
     return output
 
 
 def predict(sentence,ann):
     # function for evaluating user input sentence
     # print("input=",sentence)
-    output=evaluate(Variable(sentencetotensor(sentence)),ann)
-    top_v,top_i=output.data.topk(1)
-    output_index=top_i[0][0]
+    output = evaluate(Variable(sentencetotensor(sentence)),ann)
+    top_v,top_i = output.data.topk(1)
+    output_index = top_i[0][0]
     return all_categories[output_index],top_v[0][0],output_index
-    # print("bot:",all_categories[output_index])
-training(10000,ann)
-#torch.save(ann,'ann.pt')
+
+model_file = Path('ann.pt')
+if not model_file.is_file():
+   training(10000,ann)
+   torch.save(ann,'ann.pt')
 
 
 # predicting sentence the model didn't seen before
