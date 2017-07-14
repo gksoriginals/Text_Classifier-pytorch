@@ -6,11 +6,11 @@
 
 [PyTorch](http://pytorch.org/) is a deep learning framework that puts Python first. This project is an intent recognisor using pytorch. Intent recognition is a natural language processing task for finding what are the actions specfied in a sentence.
 
-Used in building virtual assistnats
+Used in building virtual assistants
 
 ## Get the code
 
-Run this command in terminal?command prompt
+Run this command in terminal / command prompt
 
 ```
 git clone https://github.com/GopikrishnanSasikumar/Text_Classifier-pytorch.git
@@ -18,47 +18,47 @@ git clone https://github.com/GopikrishnanSasikumar/Text_Classifier-pytorch.git
 
 ## You need:
 
-* python >= 3
+* python >= 3.0
 
-Install [python3](https://www.python.org/download/releases/3.0/)
+  Install [python3](https://www.python.org/download/releases/3.0/)
 
 * pip
 
-### For linux:
+  ### For linux:
 
-```
-sudo apt-get install python3-pip
-```
+  ```
+  sudo apt-get install python3-pip
+  ```
 
-### For Mac
+  ### For Mac
 
-To install or upgrade pip, download get-pip.py from the official site. Then run the following command:
+  To install or upgrade pip, download get-pip.py from the official site. Then run the following command:
 
-```
-sudo python get-pip.py
-```
+  ```
+  sudo python get-pip.py
+  ```
 
 * pytorch
 
-### For mac:
+  ### For mac:
 
-```
-pip install http://download.pytorch.org/whl/torch-0.1.12.post2-cp35-cp35m-macosx_10_7_x86_64.whl
-```
+  ```
+  pip install http://download.pytorch.org/whl/torch-0.1.12.post2-cp35-cp35m-macosx_10_7_x86_64.whl
+  ```
 
-```
-pip install torchvision
-```
+  ```
+  pip install torchvision
+  ```
 
-### For Linux
+  ### For Linux
 
-```
-pip install http://download.pytorch.org/whl/cu75/torch-0.1.12.post2-cp35-cp35m-linux_x86_64.whl
-```
+  ```
+  pip install http://download.pytorch.org/whl/cu75/torch-0.1.12.post2-cp35-cp35m-linux_x86_64.whl
+  ```
 
-```
-pip install torchvision
-```
+  ```
+  pip install torchvision
+  ```
 
 ## Running
 
@@ -150,7 +150,7 @@ User:see you
 goodbye
 User:
 ```
-### Try out with your dataset
+### Try out with your own dataset
 
 Delete the 'ann.pt' file and make changes in dataset like this
 
