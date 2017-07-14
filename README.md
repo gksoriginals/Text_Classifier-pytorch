@@ -20,7 +20,7 @@ Run this command in terminal?command prompt
 git clone https://github.com/GopikrishnanSasikumar/Text_Classifier-pytorch.git
 ```
 
-##You need:
+## You need:
 
 * python >= 3
 
@@ -28,13 +28,13 @@ Install [python3](https://www.python.org/download/releases/3.0/)
 
 * pip
 
-###For linux:
+### For linux:
 
 ```
 sudo apt-get install python3-pip
 ```
 
-###For Mac
+### For Mac
 
 To install or upgrade pip, download get-pip.py from the official site. Then run the following command:
 
@@ -44,7 +44,7 @@ sudo python get-pip.py
 
 * pytorch
 
-###For mac:
+### For mac:
 
 ```
 pip install http://download.pytorch.org/whl/torch-0.1.12.post2-cp35-cp35m-macosx_10_7_x86_64.whl
@@ -54,7 +54,7 @@ pip install http://download.pytorch.org/whl/torch-0.1.12.post2-cp35-cp35m-macosx
 pip install torchvision
 ```
 
-###For Linux
+### For Linux
 
 ```
 pip install http://download.pytorch.org/whl/cu75/torch-0.1.12.post2-cp35-cp35m-linux_x86_64.whl
@@ -73,7 +73,7 @@ python3 train.py
 ```
 for training the neural network model it Will create and store the model in ann.pt
 
-##Testing
+## Testing
 
 ```
 python3 test.py
@@ -85,7 +85,8 @@ User:
 ```
 Enter the sentence and see the output.
 
-##What's going on
+
+## What's going on
 
 A neural network in pytorch can be implemented like this.
 
@@ -142,7 +143,7 @@ output_p = ann(input)
 loss = criterion(output_p,output)
 loss.backward()
 ```
-##Output
+## Output
 
 ```
 User:hello
@@ -153,7 +154,7 @@ User:see you
 goodbye
 User:
 ```
-###Try out with your dataset
+### Try out with your dataset
 
 Delete the 'ann.pt' file and make changes in dataset like this
 
@@ -161,6 +162,7 @@ Delete the 'ann.pt' file and make changes in dataset like this
 training_data.append({"intent":"your_intent","sentence:"corresponding sentence "})
 ```
 Run the train and test program again
+
 
 
 ## Built with :heart: in [PyTorch](http://pytorch.org/)
