@@ -1,4 +1,5 @@
 from train import predict
+<<<<<<< HEAD
 import random
 import torch
 ann=torch.load('ann.pt')
@@ -19,3 +20,8 @@ while True:
           #print("sakhi",random.choice(["sending help","triggering panic message","finding nearby safe zone"]))
       #else:
           #print("error")
+=======
+while True:
+      k=input("User:") 
+      predict(str(k))
+>>>>>>> 56d8ee61f556e25b5c52adb07f03111913ed1f94
