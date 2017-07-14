@@ -6,10 +6,10 @@ import random
 
 
 class ANN(nn.Module):
-    
+
     def __init__(self,input_size,hidden_size,output_size):
         super(ANN,self).__init__()
-        self.i2h=nn.Linear(input_size,hidden_size) 
+        self.i2h=nn.Linear(input_size,hidden_size)
         self.h2o=nn.Linear(hidden_size,output_size)
         self.softmax=nn.LogSoftmax()
 
@@ -122,11 +122,10 @@ def train(output,input,ann):
     output_p=ann(input)  # input --> hidden_layer --> output
     loss = criterion(output_p,output)  # comparing the guessed output with actual output
     loss.backward()  # backpropagating to compute gradients with respect to loss
-    
+
     for p in ann.parameters():
         # adding learning rate to slow down the network
         p.data.add_(-learning_rate,p.grad.data)
-<<<<<<< HEAD
     return output,loss.data[0]  # returning predicted output and loss
 
 #n_iters=100000
@@ -155,53 +154,6 @@ def training(n_iters,ann):
 
 def evaluate(line_tensor,ann):
     # output evaluating function
-=======
-    return output,loss.data[0] #returning predicted output and loss
-
-current_loss=0
-for iter in range(1,n_iters+1):
-    #training thenetwork for n_itersiteration
-    category,sentence,category_tensor,line_tensor=randomTrainingExample() #fetching random training data
-    output,loss=train(category_tensor,line_tensor) #training the neural network to predict the intent accuratly 
-    current_loss+=loss #updating the error
-    if iter%50==0:
-       #for each 50 iteration print the error,input,actual intent,guessed intent
-       top_n,top_i=output.data.topk(1)
-       output_index=top_i[0][0] #converting output tensor to integer
-       out_index=category_tensor.data.numpy() #converting tensor datatype to integer
-       accuracy=100-(loss*100)
-       if accuracy<0:
-           accuracy=0
-       print('accuracy=',round(accuracy),'%','input=',sentence,'actual=',all_categories[out_index[0]],'guess=',all_categories[output_index])
-"""
-accuracy= 0 % input= having a sandwich today? actual= sandwich guess= goodbye
-accuracy= 0 % input= what's for lunch? actual= sandwich guess= sandwich
-accuracy= 15 % input= can you make a sandwich? actual= sandwich guess= sandwich
-accuracy= 10 % input= good day actual= greeting guess= greeting
-accuracy= 36 % input= how is your day? actual= greeting guess= greeting
-accuracy= 24 % input= can you make a sandwich? actual= sandwich guess= sandwich
-accuracy= 49 % input= how is it going today? actual= greeting guess= greeting
-accuracy= 24 % input= good day actual= greeting guess= greeting
-accuracy= 20 % input= have a nice day actual= goodbye guess= goodbye
-accuracy= 60 % input= is there a sandwich shop actual= sandwich guess= sandwich
-accuracy= 46 % input= good morning actual= greeting guess= greeting
-accuracy= 53 % input= can you make a sandwich? actual= sandwich guess= sandwich
-accuracy= 71 % input= how is it going today? actual= greeting guess= greeting
-accuracy= 66 % input= how are you? actual= greeting guess= greeting
-accuracy= 91 % input= find me a sandwich shop actual= sandwich guess= sandwich
-accuracy= 46 % input= hi there hello actual= greeting guess= greeting
-accuracy= 52 % input= hi there hello actual= greeting guess= greeting
-accuracy= 50 % input= have a nice day actual= goodbye guess= goodbye
-accuracy= 79 % input= talk to you soon actual= goodbye guess= goodbye
-accuracy= 78 % input= can you make a sandwich? actual= sandwich guess= sandwich
-
-"""
-    
-    
-#testing       
-def evaluate(line_tensor):
-    #output evaluating function
->>>>>>> 56d8ee61f556e25b5c52adb07f03111913ed1f94
     output=ann(line_tensor)
     return output
 
@@ -212,7 +164,6 @@ def predict(sentence,ann):
     output=evaluate(Variable(sentencetotensor(sentence)),ann)
     top_v,top_i=output.data.topk(1)
     output_index=top_i[0][0]
-<<<<<<< HEAD
     return all_categories[output_index],top_v[0][0],output_index
     # print("bot:",all_categories[output_index])
 training(10000,ann)
@@ -223,18 +174,4 @@ training(10000,ann)
 # predict("talk to you soon")
 # predict("where can i get sandwich")
 
-=======
-    print("intent=",all_categories[output_index])
-#predicting sentence the model didn't seen before
-#predict("good bye")
-#predict("where can i get sandwich")
-
-"""
-input= good bye
-intent= greeting
-input= where can i get sandwich
-intent= sandwich
->>>>>>> 56d8ee61f556e25b5c52adb07f03111913ed1f94
-
-"""
 
