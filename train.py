@@ -1,25 +1,29 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 import torch.nn as nn
 from torch.autograd import Variable
 import torch
 import random
+
+
 class ANN(nn.Module):
+    
     def __init__(self,input_size,hidden_size,output_size):
         super(ANN,self).__init__()
         self.i2h=nn.Linear(input_size,hidden_size) 
         self.h2o=nn.Linear(hidden_size,output_size)
         self.softmax=nn.LogSoftmax()
-    def forward(self,input):
-        #forward pass of the network
-        hidden=self.i2h(input) #input to hidden layer
-        output=self.h2o(hidden) #hidden to output layer
-        output=self.softmax(output) #softmax layer
+
+    def forward(self, input):
+        # forward pass of the network
+        hidden=self.i2h(input)   # input to hidden layer
+        output=self.h2o(hidden)  # hidden to output layer
+        output=self.softmax(output)   # softmax layer
         return output
-learning_rate=.005
-hidden_size=128 #size of hidden layer
-#initializing dataset
-#dataset contain the input sentence and corresponding intent
-training_data=[]
+learning_rate = .005
+hidden_size = 128  # size of hidden layer
+# initializing dataset
+# dataset contain the input sentence and corresponding intent
+training_data = list()
 training_data.append({"intent":"greeting", "sentence":"how are you?"})
 training_data.append({"intent":"greeting", "sentence":"how is your day?"})
 training_data.append({"intent":"greeting", "sentence":"hi there hello"})
@@ -34,108 +38,141 @@ training_data.append({"intent":"goodbye", "sentence":"talk to you soon"})
 training_data.append({"intent":"goodbye", "sentence":"i have to go"})
 training_data.append({"intent":"goodbye", "sentence":"i am going"})
 
-training_data.append({"intent":"sandwich", "sentence":"find me a sandwich shop"})
-training_data.append({"intent":"sandwich", "sentence":"is there a sandwich shop"})
-training_data.append({"intent":"sandwich", "sentence":"make me a sandwich"})
-training_data.append({"intent":"sandwich", "sentence":"can you make a sandwich?"})
-training_data.append({"intent":"sandwich", "sentence":"having a sandwich today?"})
-training_data.append({"intent":"sandwich", "sentence":"what's for lunch?"})
-all_categories=[] #list to store categories of intent
-all_words=[] #for storing all words to convert input sentence into bag of words
-for data in training_data:
-    #storing categories into list
-    if data["intent"] not in all_categories:
-        all_categories.append(data["intent"])
-    for word in data["sentence"].split(" "):
-        #storing words in each sentence
-        if word not in all_words:
-            all_words.append(word)
-#We need to convert a sentence into a vector with size is total number of distinct words in dataset,initialized to zero.
-#If a word is in the sentence its position is made one. Thus a bag of word is created.
+training_data.append({"intent":"alert", "sentence":"help me"})
+training_data.append({"intent":"alert", "sentence":"send the panic message"})
+training_data.append({"intent":"alert", "sentence":"i am in danger"})
+training_data.append({"intent":"sango", "sentence":"what is sango"})
+training_data.append({"intent":"sango", "sentence":"who are you"})
+training_data.append({"intent":"sango", "sentence":"tell me about yourself"})
+training_data.append({"intent":"sango", "sentence":"what is your purpose"})
+
+training_data.append({"intent":"bot", "sentence":"what is your name"})
+training_data.append({"intent":"bot", "sentence":"do you have a name"})
+training_data.append({"intent":"bot", "sentence":"where is your home"})
+training_data.append({"intent":"bot", "sentence":"do you like sandwich"})
+training_data.append({"intent":"bot", "sentence":"you are awesome"})
 
 
-n_words=len(all_words) #input size
-n_categories=len(all_categories) #output size   
+
+def dataclean(training_data):
+    all_categories = list()  # list to store categories of intent
+    all_words = list()  # for storing all words to convert input sentence into bag of words
+    for data in training_data:
+        if data["intent"] not in all_categories:
+           all_categories.append(data["intent"])
+        for word in data["sentence"].split(" "):
+            #  storing words in each sentence
+            if word not in all_words:
+               all_words.append(word)
+    return all_categories,all_words
+
+
+all_categories,all_words = dataclean(training_data)
+
+# We need to convert sentence into a vector with size is total number of distinct words in dataset,initialized to zero.
+# If a word is in the sentence its position is made one. Thus a bag of word is created.
+
+
+n_words=len(all_words)  # input size
+n_categories=len(all_categories)  # output size
 input_size=n_words
 output_size=n_categories
+hidden_size=128
+
 def wordToIndex(word):
-    #finding indx of a word from all_words
+    # finding indx of a word from all_words
     return all_words.index(word)
 
-def sentenceToTensor(sentence):
-    #input tensor initialized with zeros
+
+def sentencetotensor(sentence):
+    # input tensor initialized with zeros
     tensor=torch.zeros(1,n_words)
     for word in sentence.split(" "):
         if word not in all_words:
-            #to deal with words not in dataset in evaluation stage
+            # to deal with words not in dataset in evaluation stage
             continue
-        tensor[0][wordToIndex(word)]=1 #making found word's position 1
+        tensor[0][wordToIndex(word)] = 1  # making found word's position 1
     return tensor
 
-def randomChoice(l):
-    #random function for shuffling dataset
+
+def randomchoice(l):
+    # random function for shuffling dataset
     return l[random.randint(0,len(l)-1)]
 
-def randomTrainingExample():
-    #produce random training data
-    data=randomChoice(training_data)
-    category=data["intent"] #intent
-    category_tensor=Variable(torch.LongTensor([all_categories.index(category)])) #creating target Tensor
-    sentence=data["sentence"] #input
-    line_tensor=Variable(sentenceToTensor(sentence)) #input tensor
+
+def randomtrainingexample():
+    # produce random training data
+    data = randomchoice(training_data)
+    category = data["intent"]  # intent
+    category_tensor = Variable(torch.LongTensor([all_categories.index(category)]))  # creating target Tensor
+    sentence = data["sentence"]  # input
+    line_tensor = Variable(sentencetotensor(sentence))  # input tensor
     return category,sentence,category_tensor,line_tensor
 
-n_iters=1000 #number of iteration
 
-ann=ANN(input_size,hidden_size,output_size) #will initialize the computation graph
-criterion=nn.NLLLoss() #loss function 
-
+ann = ANN(input_size, hidden_size, output_size)  # will initialize the computation graph
+criterion = nn.NLLLoss()  #
 
 
-def train(category_tensor,line_tensor):
-    #function for training the neural net
-    ann.zero_grad() #initializing gradients with zeros
-    #predicting the output
-    output=ann(line_tensor) #input --> hidden_layer --> output
-    
-        
-    loss=criterion(output,category_tensor) #comparing the guessed output with actual output
-    loss.backward()  #backpropagating to compute gradients with respect to loss
+def train(output,input,ann):
+
+    # function for training the neural net
+    ann.zero_grad()  # initializing gradients with zeros
+    # predicting the output
+    output_p=ann(input)  # input --> hidden_layer --> output
+    loss = criterion(output_p,output)  # comparing the guessed output with actual output
+    loss.backward()  # backpropagating to compute gradients with respect to loss
     
     for p in ann.parameters():
-        #adding learning rate to slow down the network
+        # adding learning rate to slow down the network
         p.data.add_(-learning_rate,p.grad.data)
-    return output,loss.data[0] #returning predicted output and loss
+    return output,loss.data[0]  # returning predicted output and loss
 
-current_loss=0
-for iter in range(1,n_iters+1):
-    #training thenetwork for n_itersiteration
-    category,sentence,category_tensor,line_tensor=randomTrainingExample() #fetching random training data
-    output,loss=train(category_tensor,line_tensor) #training the neural network to predict the intent accuratly 
-    current_loss+=loss #updating the error
-    if iter%50==0:
-       #for each 50 iteration print the error,input,actual intent,guessed intent
-       top_n,top_i=output.data.topk(1)
-       output_index=top_i[0][0] #converting output tensor to integer
-       out_index=category_tensor.data.numpy() #converting tensor datatype to integer
-       accuracy=100-(loss*100)
-       if accuracy<0:
-           accuracy=0
-       print('accuracy=',round(accuracy),'%','input=',sentence,'actual=',all_categories[out_index[0]],'guess=',all_categories[output_index])
-#testing       
-def evaluate(line_tensor):
-    #output evaluating function
+#n_iters=100000
+def training(n_iters,ann):
+    current_loss=0
+    for iter in range(1,n_iters+1):
+        # training the network for n_iteration
+        category,sentence,category_tensor,line_tensor = randomtrainingexample()  # fetching random training data
+        output,loss = train(category_tensor,line_tensor,ann)  # training the neural network to predict the intent accuratly
+        current_loss += loss  # updating the error
+        if iter%100 == 0:
+            # for each 50 iteration print the error,input,actual intent,guessed intent
+           #top_n,top_i=output.data.topk(1)
+           k=0
+           output_index=output.data.numpy()[0]
+           #print(top_i)
+           #output_index = top_i[0][0]  # converting output tensor to integer
+           out_index=category_tensor.data.numpy()  # converting tensor datatype to integer
+           accuracy=100-(loss*100)
+           if accuracy<0:
+              accuracy=0
+           print('accuracy=',round(accuracy),'%','input=',sentence,'actual=',all_categories[out_index[0]],
+                  'guess=',all_categories[output_index])
+# testing
+
+
+def evaluate(line_tensor,ann):
+    # output evaluating function
     output=ann(line_tensor)
     return output
-def predict(sentence):
-    #function for evaluating user input sentence
-    print("input=",sentence)
-    output=evaluate(Variable(sentenceToTensor(sentence)))
+
+
+def predict(sentence,ann):
+    # function for evaluating user input sentence
+    # print("input=",sentence)
+    output=evaluate(Variable(sentencetotensor(sentence)),ann)
     top_v,top_i=output.data.topk(1)
     output_index=top_i[0][0]
-    print("intent=",all_categories[output_index])
-#predicting sentence the model didn't seen before
-predict("good bye")
-predict("where can i get sandwich")
+    return all_categories[output_index],top_v[0][0],output_index
+    # print("bot:",all_categories[output_index])
+training(10000,ann)
+#torch.save(ann,'ann.pt')
+
+
+# predicting sentence the model didn't seen before
+# predict("talk to you soon")
+# predict("where can i get sandwich")
+
 
 
