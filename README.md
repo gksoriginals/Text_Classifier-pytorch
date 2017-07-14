@@ -4,10 +4,6 @@
 
 * **Gopikrishnan Sasikumar**
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
 [PyTorch](http://pytorch.org/) is a deep learning framework that puts Python first. This project is an intent recognisor using pytorch. Intent recognition is a natural language processing task for finding what are the actions specfied in a sentence.
 
 Used in building virtual assistnats
@@ -162,6 +158,10 @@ Delete the 'ann.pt' file and make changes in dataset like this
 training_data.append({"intent":"your_intent","sentence:"corresponding sentence "})
 ```
 Run the train and test program again
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](Text_Classifier-pytorch/LICENSE) file for details
 
 
 
