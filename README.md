@@ -82,7 +82,7 @@ User:
 Enter the sentence and see the output.
 
 
-## What's going on
+## What's going on ?
 
 A neural network in pytorch can be implemented like this.
 
@@ -139,7 +139,7 @@ output_p = ann(input)
 loss = criterion(output_p,output)
 loss.backward()
 ```
-## Output
+## It worked !
 
 ```
 User:hello
