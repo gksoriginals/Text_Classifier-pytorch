@@ -1,9 +1,5 @@
 # Intent Recognition using pytorch
 
-## Author
-
-* **[Gopikrishnan Sasikumar](https://github.com/GopikrishnanSasikumar)**
-
 [PyTorch](http://pytorch.org/) is a deep learning framework that puts Python first. This project is an intent recognisor using pytorch. Intent recognition is a natural language processing task for finding what are the actions specfied in a sentence.
 
 Used in building virtual assistants
@@ -165,7 +161,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](Text_Class
 
 
 
-## Built with :heart: by [Gopi](www.github.com/GopikrishnanSasikumar)
+## Built with :heart: by [Gopi](https://github.com/GopikrishnanSasikumar)
 
 
 
