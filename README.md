@@ -165,7 +165,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](Text_Class
 
 
 
-## Built with :heart: in [PyTorch](http://pytorch.org/)
+## Built with :heart: by [Gopi](www.github.com/GopikrishnanSasikumar)
 
 
 
