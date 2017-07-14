@@ -40,18 +40,15 @@ training_data.append({"intent":"goodbye", "sentence":"i have to go"})
 training_data.append({"intent":"goodbye", "sentence":"i am going"})
 
 training_data.append({"intent":"alert", "sentence":"help me"})
-training_data.append({"intent":"alert", "sentence":"send the panic message"})
+training_data.append({"intent":"alert", "sentence":"save me"})
 training_data.append({"intent":"alert", "sentence":"i am in danger"})
-training_data.append({"intent":"sango", "sentence":"what is sango"})
-training_data.append({"intent":"sango", "sentence":"who are you"})
-training_data.append({"intent":"sango", "sentence":"tell me about yourself"})
-training_data.append({"intent":"sango", "sentence":"what is your purpose"})
 
-training_data.append({"intent":"bot", "sentence":"what is your name"})
-training_data.append({"intent":"bot", "sentence":"do you have a name"})
-training_data.append({"intent":"bot", "sentence":"where is your home"})
-training_data.append({"intent":"bot", "sentence":"do you like sandwich"})
-training_data.append({"intent":"bot", "sentence":"you are awesome"})
+
+training_data.append({"intent":"sandwich", "sentence":"get me sandwich"})
+training_data.append({"intent":"sandwich", "sentence":"i want sandwich"})
+training_data.append({"intent":"sandwich", "sentence":"where can i get sandwich"})
+training_data.append({"intent":"sandwich", "sentence":"do you like sandwich"})
+training_data.append({"intent":"sandwich", "sentence":"buy me sandwich"})
 
 
 
