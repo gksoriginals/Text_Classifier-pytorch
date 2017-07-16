@@ -135,8 +135,14 @@ output_p = ann(input)
 loss = criterion(output_p,output)
 loss.backward()
 ```
-## It worked !
+After some iterations model learned the task and stored what it learned in a file, 'ann.pt'. 
 
+## It worked !
+The model is tested with texts it didnt seen before. The 'test.py' use the learned model stored in 'ann.pt' to predict the intent.
+```
+ann=torch.load('ann.pt') #importing trained model
+```
+Here goes the prediction !
 ```
 User:hello
 greeting
